@@ -22,3 +22,5 @@
 [ALERT] [2025-12-21 15:37:00] CPU CRITICAL (14%)
 [ALERT] [2025-12-21 15:42:00] CPU CRITICAL (12%)
 [ALERT] [2025-12-21 15:44:14] CPU CRITICAL (14%)
+[alert] [2025-12-21 15:53:10] docker daemon down
+[info] [2025-12-21 15:53:10] docker daemon restarted

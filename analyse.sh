@@ -1,18 +1,28 @@
 #!/usr/bin/zsh
 
+#waiting for 5 minutes!!
 cooldown=300
 
+
+#our defalut dir!!
 dir=/home/akash/monitor
 
+
+#paths of cooldown files!!
 cpu_cooldown_file="$dir/data/cooldown_cpu"
 mem_cooldown_file="$dir/data/cooldown_mem"
 disk_cooldown_file="$dir/data/cooldown_disk"
 
+
+#current time!!
 now=$(date +%s)
 
 
 #adding the path for csv file!
 csv_file="$dir/data/metric.csv"
+
+#adding path of json file
+json_file="$dir/data/metrics.json"
 
 #adding the path of logs files
 log_file="$dir/data/alert.log"
@@ -89,6 +99,7 @@ if [ "$cpu_state" = "CRITICAL" ]; then
     rm -f "$cpu_cooldown_file"
 fi
 
+#checking for memory and alerting it!!
 if [ "$mem_state" = "CRITICAL" ]; then
   if [ -f "$mem_cooldown_file" ]; then
     last=$(cat "$mem_cooldown_file")
@@ -105,7 +116,7 @@ if [ "$mem_state" = "CRITICAL" ]; then
     rm -f "$mem_cooldown_file"
 fi
 
-
+#checking for disk usage and alerting it!!!
 if [ "$disk_state" = "CRITICAL" ]; then
   if [ -f "$disk_cooldown_file" ]; then
     last=$(cat "$disk_cooldown_file")
@@ -125,16 +136,34 @@ fi
 
 
 
-
+#putting values in csv file!!
 if [ ! -f "$csv_file" ]; then
   echo "timestamp,cpu,cpu_state,mem,mem_state,disk,disk_state" > "$csv_file"
 fi
 
 echo "$timestamp,$cpu_val,$cpu_state,$mem_val,$mem_state,$disk_val,$disk_state" >> "$csv_file"
  
+cat > "$json_file" << EOF
+{
+  "timestamp": "$timestamp",
+  "cpu": {
+    "value": $cpu_val,
+    "state": "$cpu_state"
+  },
+  "memory": {
+    "value": $mem_val,
+    "state": "$mem_state"
+  },
+  "disk": {
+    "value": $disk_val,
+    "state": "$disk_state"
+  }
+}
+EOF
 
-# to check for the process now!!
 
+
+# to check if the docker is working and restarting it if it is not working!!
 process_name="dockerd"
 if ! pgrep -x "$process_name" > /dev/null; then
   echo "[alert] $timestamp docker daemon down!!"
