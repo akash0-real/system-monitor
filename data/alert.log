@@ -1,1 +1,11 @@
 [alert] [2025-12-21 14:14:47] cpu critical (10%)
+[alert] [2025-12-21 14:39:25] docker daemon down
+[critical] [2025-12-21 14:39:25] failed to start docker!!
+[alert] [2025-12-21 14:40:54] docker daemon down
+[critical] [2025-12-21 14:40:54] failed to start docker!!
+[alert] [2025-12-21 14:43:00] docker daemon down
+[critical] [2025-12-21 14:43:00] failed to start docker!!
+[alert] [2025-12-21 14:43:36] docker daemon down
+[critical] [2025-12-21 14:43:36] failed to start docker!!
+[alert] [2025-12-21 14:44:50] docker daemon down
+[info] [2025-12-21 14:44:50] docker daemon restarted

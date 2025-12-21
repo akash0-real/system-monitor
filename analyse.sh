@@ -85,4 +85,24 @@ if [ ! -f "$csv_file" ]; then
 fi
 
 echo "$timestamp,$cpu_val,$cpu_state,$mem_val,$mem_state,$disk_val,$disk_state" >> "$csv_file"
+ 
+
+# to check for the process now!!
+
+process_name="dockerd"
+if ! pgrep -x "$process_name" > /dev/null; then
+  echo "[alert] $timestamp docker daemon down!!"
+  echo "[alert] [$timestamp] docker daemon down" >> "$log_file"
+
+  sudo systemctl restart docker 
+  sleep 3
+  if pgrep -x "$process_name" > /dev/null; then
+    echo "[info]  $timestamp docker daemon restarted"
+    echo "[info] [$timestamp] docker daemon restarted" >> "$log_file"
+  else
+    echo "[critical] failed to start docker!!"
+    echo "[critical] [$timestamp] failed to start docker!!" >> "$log_file"
+  fi
+fi
+    
   
