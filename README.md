@@ -2,7 +2,7 @@
 
 A lightweight system monitoring tool that automatically detects issues and fixes them. Built with Bash and vanilla web technologies.
 
-![Dashboard](/home/akash/Pictures/Screenshots/Pro.png)
+![Dashboard](/images/Pro.png)
 
 ## Why This Exists
 
