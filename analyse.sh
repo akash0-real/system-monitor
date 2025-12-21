@@ -1,11 +1,12 @@
 #!/usr/bin/zsh
 
-#adding the path for csv file!
+dir=/home/akash/monitor
 
-csv_file="data/metric.csv"
+#adding the path for csv file!
+csv_file="$dir/data/metric.csv"
 
 #adding the path of logs files
-log_file="data/alert.log"
+log_file="$dir/data/alert.log"
 
 #adding the time stamps!
 timestamp=$(date "+%Y-%m-%d %H:%M:%S")
