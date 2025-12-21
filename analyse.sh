@@ -1,6 +1,15 @@
 #!/usr/bin/zsh
 
+cooldown=300
+
 dir=/home/akash/monitor
+
+cpu_cooldown_file="$dir/data/cooldown_cpu"
+mem_cooldown_file="$dir/data/cooldown_mem"
+disk_cooldown_file="$dir/data/cooldown_disk"
+
+now=$(date +%s)
+
 
 #adding the path for csv file!
 csv_file="$dir/data/metric.csv"
@@ -63,19 +72,55 @@ fi
 echo "DISK=${disk_val}% STATE=$disk_state"
 
 #cheking and getting the alert
-if [ "$cpu_state" = "CRITICAL" ]; then 
-  echo "[alert] $timestamp cpu critical (${cpu_val}%)"
-  echo "[alert] [$timestamp] cpu critical (${cpu_val}%)" >> "$log_file"
+if [ "$cpu_state" = "CRITICAL" ]; then
+  if [ -f "$cpu_cooldown_file" ]; then
+    last=$(cat "$cpu_cooldown_file")
+    diff=$((now - last))
+  else
+    diff=$cooldown
+  fi
+ 
+  if [ "$diff" -ge "$cooldown" ]; then
+    echo "[ALERT] $timestamp CPU CRITICAL (${cpu_val}%)"
+    echo "[ALERT] [$timestamp] CPU CRITICAL (${cpu_val}%)" >> "$log_file"
+    echo "$now" > "$cpu_cooldown_file"
+  fi
+  else
+    rm -f "$cpu_cooldown_file"
 fi
 
 if [ "$mem_state" = "CRITICAL" ]; then
-  echo "[alert] $timestamp mem critical (${mem_val}%)"
-  echo "[alert] [$timestamp] mem critical (${mem_val}%)" >> "$log_file"
+  if [ -f "$mem_cooldown_file" ]; then
+    last=$(cat "$mem_cooldown_file")
+    diff=$((now-last))
+  else
+    diff=$cooldown
+  fi
+  if [ "$diff" -ge "$cooldown" ];then
+    echo "[alert] $timestamp memory critical (${mem_val}%)"
+    echo "[alert] [$timestamp] memory critical (${mem_val}%)" >> "$log_file"
+    echo "$now" > "$mem_cooldown_file"
+  fi
+  else
+    rm -f "$mem_cooldown_file"
 fi
 
+
 if [ "$disk_state" = "CRITICAL" ]; then
-  echo "[alert] $timestamp disk critical (${disk_val}%)"
-  echo "[alert] $timestamp disk critical (${disk_val}%)" >> "$log_file"
+  if [ -f "$disk_cooldown_file" ]; then
+    last=$(cat "$disk_cooldown_file")
+    diff=$((now-last))
+  else
+    diff=$cooldown
+  fi
+  if [ "$diff" -ge "$cooldown" ]; then
+    echo "[alert] $timestamp disk critical (${disk_val}%)"
+    echo "[alert] [$timestamp] disk critical (${disk_val}%)" >> "$log_file"
+    echo "$now" > "$disk_cooldown_file"
+  fi
+else
+  rm -f "$disk_cooldown_file"
+
 fi
 
 
