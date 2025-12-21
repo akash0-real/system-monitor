@@ -26,3 +26,15 @@
 [info] [2025-12-21 15:53:10] docker daemon restarted
 [alert] [2025-12-21 16:40:17] docker daemon down
 [info] [2025-12-21 16:40:17] docker daemon restarted
+[alert] [2025-12-21 17:30:09] docker daemon down
+[info] [2025-12-21 17:30:09] docker daemon restarted
+[alert] [2025-12-21 17:43:45] docker daemon down
+[info] [2025-12-21 17:43:45] docker daemon restarted
+[alert] [2025-12-21 17:47:58] docker daemon down
+[info] [2025-12-21 17:47:58] docker daemon restarted
+[alert] [2025-12-21 17:50:00] docker daemon down
+[alert] [2025-12-21 17:50:00] docker daemon down
+[info] [2025-12-21 17:50:00] docker daemon restarted
+[info] [2025-12-21 17:50:00] docker daemon restarted
+[alert] [2025-12-21 17:51:25] docker daemon down
+[info] [2025-12-21 17:51:25] docker daemon restarted
