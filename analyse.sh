@@ -143,7 +143,7 @@ fi
 
 echo "$timestamp,$cpu_val,$cpu_state,$mem_val,$mem_state,$disk_val,$disk_state" >> "$csv_file"
  
-cat > "$json_file" << EOF
+cat > "$dir/data/metrics.json" <<EOF
 {
   "timestamp": "$timestamp",
   "cpu": {

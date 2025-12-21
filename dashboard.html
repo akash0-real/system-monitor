@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitor Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #1a1a1a;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666666;
+            font-size: 1rem;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .metric-card {
+            background: #ffffff;
+            backdrop-filter: none;
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: #cccccc;
+        }
+
+        .metric-card.cpu {
+            --gradient-start: #f093fb;
+            --gradient-end: #f5576c;
+        }
+
+        .metric-card.memory {
+            --gradient-start: #4facfe;
+            --gradient-end: #00f2fe;
+        }
+
+        .metric-card.disk {
+            --gradient-start: #43e97b;
+            --gradient-end: #38f9d7;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .metric-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+        }
+
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .metric-state {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .state-normal {
+            background: rgba(67, 233, 123, 0.2);
+            color: #43e97b;
+            border: 1px solid #43e97b;
+        }
+
+        .state-warning {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid #ffc107;
+        }
+
+        .state-critical {
+            background: rgba(245, 87, 108, 0.2);
+            color: #f5576c;
+            border: 1px solid #f5576c;
+        }
+
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .chart-card {
+            background: #ffffff;
+            backdrop-filter: none;
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .alerts-section {
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+
+        .alerts-card {
+            background: #ffffff;
+            backdrop-filter: none;
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .alerts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .alert-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            background: #f8f8f8;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+        .alert-item:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .alert-item.alert-critical {
+            border-left-color: #f5576c;
+        }
+
+        .alert-item.alert-info {
+            border-left-color: #4facfe;
+        }
+
+        .alert-time {
+            font-size: 0.85rem;
+            color: #666666;
+            margin-bottom: 5px;
+        }
+
+        .alert-message {
+            font-size: 0.95rem;
+            color: #1a1a1a;
+        }
+
+        .refresh-btn {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            background: #333333;
+        }
+
+        .refresh-btn:active {
+            transform: translateY(0);
+        }
+
+        .last-update {
+            text-align: center;
+            color: #666666;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        canvas {
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>System Monitor Dashboard</h1>
+            <p class="subtitle">Real-time system metrics and alerts</p>
+        </header>
+
+        <div class="metrics-grid">
+            <div class="metric-card cpu">
+                <div class="metric-header">
+                    <span class="metric-title">CPU Usage</span>
+                    <div class="metric-icon">⚡</div>
+                </div>
+                <div class="metric-value" id="cpu-value">--</div>
+                <span class="metric-state" id="cpu-state">--</span>
+            </div>
+
+            <div class="metric-card memory">
+                <div class="metric-header">
+                    <span class="metric-title">Memory Usage</span>
+                    <div class="metric-icon">💾</div>
+                </div>
+                <div class="metric-value" id="mem-value">--</div>
+                <span class="metric-state" id="mem-state">--</span>
+            </div>
+
+            <div class="metric-card disk">
+                <div class="metric-header">
+                    <span class="metric-title">Disk Usage</span>
+                    <div class="metric-icon">💿</div>
+                </div>
+                <div class="metric-value" id="disk-value">--</div>
+                <span class="metric-state" id="disk-state">--</span>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <div class="chart-card">
+                <h2 class="chart-title">Historical Trends</h2>
+                <canvas id="trendsChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h2 class="chart-title">Current Distribution</h2>
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+
+        <div class="alerts-section">
+            <div class="alerts-card">
+                <div class="alerts-header">
+                    <h2 class="chart-title">Recent Alerts</h2>
+                    <button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+                </div>
+                <div id="alerts-container">
+                    <p style="color: #666666; text-align: center;">Loading alerts...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="last-update" id="last-update">Last updated: --</div>
+    </div>
+
+    <script>
+        let trendsChart, distributionChart;
+
+        async function loadData() {
+            try {
+                // Try to read metrics.json
+                const metricsResponse = await fetch('data/metrics.json');
+                if (metricsResponse.ok) {
+                    const metrics = await metricsResponse.json();
+                    updateMetrics(metrics);
+                } else {
+                    console.error('Failed to load metrics.json');
+                }
+
+                // Try to read metric.csv
+                const csvResponse = await fetch('data/metric.csv');
+                if (csvResponse.ok) {
+                    const csvData = await csvResponse.text();
+                    updateCharts(csvData);
+                } else {
+                    console.error('Failed to load metric.csv');
+                }
+
+                // Try to read alert.log
+                const alertsResponse = await fetch('data/alert.log');
+                if (alertsResponse.ok) {
+                    const alertsData = await alertsResponse.text();
+                    updateAlerts(alertsData);
+                } else {
+                    console.error('Failed to load alert.log');
+                }
+
+                document.getElementById('last-update').textContent = `Last updated: ${new Date().toLocaleString()}`;
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('Error loading data. Make sure you are running this from a web server in the /home/akash/monitor directory.');
+            }
+        }
+
+        function updateMetrics(metrics) {
+            document.getElementById('cpu-value').textContent = metrics.cpu.value + '%';
+            document.getElementById('cpu-state').textContent = metrics.cpu.state;
+            document.getElementById('cpu-state').className = 'metric-state state-' + metrics.cpu.state.toLowerCase();
+
+            document.getElementById('mem-value').textContent = metrics.memory.value + '%';
+            document.getElementById('mem-state').textContent = metrics.memory.state;
+            document.getElementById('mem-state').className = 'metric-state state-' + metrics.memory.state.toLowerCase();
+
+            document.getElementById('disk-value').textContent = metrics.disk.value + '%';
+            document.getElementById('disk-state').textContent = metrics.disk.state;
+            document.getElementById('disk-state').className = 'metric-state state-' + metrics.disk.state.toLowerCase();
+        }
+
+        function updateCharts(csvData) {
+            const lines = csvData.trim().split('\n');
+            const data = lines.slice(1).map(line => {
+                const parts = line.split(',');
+                return {
+                    timestamp: parts[0],
+                    cpu: parseInt(parts[1]),
+                    mem: parseInt(parts[3]),
+                    disk: parseInt(parts[5])
+                };
+            });
+
+            const last20 = data.slice(-20);
+            const labels = last20.map(d => d.timestamp.split(' ')[1]);
+
+            if (trendsChart) trendsChart.destroy();
+            const ctx1 = document.getElementById('trendsChart').getContext('2d');
+            trendsChart = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'CPU',
+                        data: last20.map(d => d.cpu),
+                        borderColor: '#f5576c',
+                        backgroundColor: 'rgba(245, 87, 108, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Memory',
+                        data: last20.map(d => d.mem),
+                        borderColor: '#00f2fe',
+                        backgroundColor: 'rgba(0, 242, 254, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Disk',
+                        data: last20.map(d => d.disk),
+                        borderColor: '#38f9d7',
+                        backgroundColor: 'rgba(56, 249, 215, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#1a1a1a', font: { size: 12 } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            ticks: { color: '#666666' }
+                        },
+                        x: {
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            ticks: { color: '#666666', maxRotation: 45 }
+                        }
+                    }
+                }
+            });
+
+            const latest = data[data.length - 1];
+            if (distributionChart) distributionChart.destroy();
+            const ctx2 = document.getElementById('distributionChart').getContext('2d');
+            distributionChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['CPU', 'Memory', 'Disk'],
+                    datasets: [{
+                        data: [latest.cpu, latest.mem, latest.disk],
+                        backgroundColor: ['#f5576c', '#00f2fe', '#38f9d7'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#1a1a1a', font: { size: 12 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateAlerts(alertsData) {
+            const alerts = alertsData.trim().split('\n').filter(line => line.length > 0);
+            const container = document.getElementById('alerts-container');
+            
+            if (alerts.length === 0) {
+                container.innerHTML = '<p style="color: #666666; text-align: center;">No alerts found</p>';
+                return;
+            }
+
+            const recentAlerts = alerts.slice(-10).reverse();
+            container.innerHTML = recentAlerts.map(alert => {
+                const match = alert.match(/\[(.*?)\]\s+\[(.*?)\]\s+(.*)/);
+                if (!match) return '';
+                
+                const type = match[1].toLowerCase();
+                const time = match[2];
+                const message = match[3];
+                
+                const alertClass = type === 'critical' || type === 'alert' ? 'alert-critical' : 'alert-info';
+                
+                return `
+                    <div class="alert-item ${alertClass}">
+                        <div class="alert-time">${time}</div>
+                        <div class="alert-message">${message}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        loadData();
+        setInterval(loadData, 10000);
+    </script>
+</body>
+</html>

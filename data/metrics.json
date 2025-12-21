@@ -1,11 +1,11 @@
 {
-  "timestamp": "2025-12-21 16:11:00",
+  "timestamp": "2025-12-21 17:26:00",
   "cpu": {
-    "value": 11,
+    "value": 5,
     "state": "NORMAL"
   },
   "memory": {
-    "value": 38,
+    "value": 48,
     "state": "NORMAL"
   },
   "disk": {
