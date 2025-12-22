@@ -82,7 +82,7 @@ fi
 echo "DISK=${disk_val}% STATE=$disk_state"
 
 #cheking and getting the alert
-if [ "$cpu_state" = "CRITICAL" ]; then
+if [[ "$cpu_state" == "CRITICAL" ]]; then
   if [ -f "$cpu_cooldown_file" ]; then
     last=$(cat "$cpu_cooldown_file")
     diff=$((now - last))
@@ -100,7 +100,7 @@ if [ "$cpu_state" = "CRITICAL" ]; then
 fi
 
 #checking for memory and alerting it!!
-if [ "$mem_state" = "CRITICAL" ]; then
+if [[ "$mem_state" == "CRITICAL" ]]; then
   if [ -f "$mem_cooldown_file" ]; then
     last=$(cat "$mem_cooldown_file")
     diff=$((now-last))
