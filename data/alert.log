@@ -77,3 +77,85 @@
 [critical] [2025-12-22 22:08:00] failed to start docker!!
 [alert] [2025-12-22 22:09:00] docker daemon down
 [critical] [2025-12-22 22:09:00] failed to start docker!!
+[ALERT] [2025-12-22 22:50:00] CPU CRITICAL (99%)
+[alert] [2025-12-22 22:55:00] docker daemon down
+[critical] [2025-12-22 22:55:00] failed to start docker!!
+[alert] [2025-12-22 22:56:00] docker daemon down
+[critical] [2025-12-22 22:56:00] failed to start docker!!
+[alert] [2025-12-22 23:01:00] docker daemon down
+[critical] [2025-12-22 23:01:00] failed to start docker!!
+[alert] [2025-12-22 23:02:00] docker daemon down
+[critical] [2025-12-22 23:02:00] failed to start docker!!
+[alert] [2025-12-22 23:17:00] docker daemon down
+[critical] [2025-12-22 23:17:00] failed to start docker!!
+[alert] [2025-12-22 23:18:00] docker daemon down
+[alert] [2025-12-22 23:36:00] docker daemon down
+[critical] [2025-12-22 23:36:00] failed to start docker!!
+[alert] [2025-12-22 23:37:00] docker daemon down
+[critical] [2025-12-22 23:37:00] failed to start docker!!
+[ALERT] [2025-12-23 00:27:00] CPU CRITICAL (100%)
+[ALERT] [2025-12-23 00:32:00] CPU CRITICAL (100%)
+[alert] [2025-12-23 00:37:00] docker daemon down
+[critical] [2025-12-23 00:37:00] failed to start docker!!
+[alert] [2025-12-23 00:38:00] docker daemon down
+[critical] [2025-12-23 00:38:00] failed to start docker!!
+[alert] [2025-12-23 00:51:00] docker daemon down
+[critical] [2025-12-23 00:51:00] failed to start docker!!
+[alert] [2025-12-23 00:52:00] docker daemon down
+[critical] [2025-12-23 00:52:00] failed to start docker!!
+[ALERT] [2025-12-23 01:08:00] CPU CRITICAL (92%)
+[alert] [2025-12-23 01:08:00] docker daemon down
+[critical] [2025-12-23 01:08:00] failed to start docker!!
+[alert] [2025-12-23 12:11:00] docker daemon down
+[critical] [2025-12-23 12:11:00] failed to start docker!!
+[alert] [2025-12-23 12:12:00] docker daemon down
+[critical] [2025-12-23 12:12:00] failed to start docker!!
+[alert] [2025-12-23 16:17:00] docker daemon down
+[critical] [2025-12-23 16:17:00] failed to start docker!!
+[alert] [2025-12-23 16:18:00] docker daemon down
+[critical] [2025-12-23 16:18:00] failed to start docker!!
+[ALERT] [2025-12-23 20:50:00] CPU CRITICAL (100%)
+[ALERT] [2025-12-23 20:52:01] CPU CRITICAL (98%)
+[alert] [2025-12-23 21:38:00] docker daemon down
+[critical] [2025-12-23 21:38:00] failed to start docker!!
+[alert] [2025-12-23 21:39:00] docker daemon down
+[critical] [2025-12-23 21:39:00] failed to start docker!!
+[alert] [2025-12-23 21:54:00] docker daemon down
+[critical] [2025-12-23 21:54:00] failed to start docker!!
+[alert] [2025-12-23 21:55:00] docker daemon down
+[critical] [2025-12-23 21:55:00] failed to start docker!!
+[alert] [2025-12-23 22:48:00] docker daemon down
+[critical] [2025-12-23 22:48:00] failed to start docker!!
+[alert] [2025-12-23 22:49:00] docker daemon down
+[critical] [2025-12-23 22:49:00] failed to start docker!!
+[alert] [2025-12-24 00:37:00] docker daemon down
+[critical] [2025-12-24 00:37:00] failed to start docker!!
+[alert] [2025-12-24 01:28:00] docker daemon down
+[critical] [2025-12-24 01:28:00] failed to start docker!!
+[alert] [2025-12-24 01:29:00] docker daemon down
+[critical] [2025-12-24 01:29:00] failed to start docker!!
+[alert] [2025-12-24 02:51:00] docker daemon down
+[critical] [2025-12-24 02:51:00] failed to start docker!!
+[alert] [2025-12-24 02:52:00] docker daemon down
+[critical] [2025-12-24 02:52:00] failed to start docker!!
+[alert] [2025-12-24 13:26:00] docker daemon down
+[critical] [2025-12-24 13:26:00] failed to start docker!!
+[alert] [2025-12-24 13:27:00] docker daemon down
+[critical] [2025-12-24 13:27:00] failed to start docker!!
+[ALERT] [2025-12-24 13:35:00] CPU CRITICAL (100%)
+[alert] [2025-12-24 14:54:00] docker daemon down
+[critical] [2025-12-24 14:54:00] failed to start docker!!
+[alert] [2025-12-24 14:55:00] docker daemon down
+[critical] [2025-12-24 14:55:00] failed to start docker!!
+[alert] [2025-12-24 20:01:00] docker daemon down
+[critical] [2025-12-24 20:01:00] failed to start docker!!
+[alert] [2025-12-24 20:02:00] docker daemon down
+[critical] [2025-12-24 20:02:00] failed to start docker!!
+[alert] [2025-12-24 23:43:00] docker daemon down
+[critical] [2025-12-24 23:43:00] failed to start docker!!
+[alert] [2025-12-24 23:44:00] docker daemon down
+[critical] [2025-12-24 23:44:00] failed to start docker!!
+[alert] [2025-12-25 11:53:00] docker daemon down
+[critical] [2025-12-25 11:53:00] failed to start docker!!
+[alert] [2025-12-25 11:54:00] docker daemon down
+[critical] [2025-12-25 11:54:00] failed to start docker!!

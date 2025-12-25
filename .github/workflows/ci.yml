@@ -1,0 +1,41 @@
+name: Monitor Bash CI 
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  bash-cli:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install dependencies 
+        run: |
+          sudo apt-get update
+          sudo apt-get intstall -y shellcheck jq
+
+      - name: Bash syntax check 
+        run: |
+          bash -n analyse.sh
+
+      - name: ShellCheck analyse.sh
+        run: |
+          shellcheck analyse.sh
+
+      - name: Make Script executable
+        run: chmod +x analyse.sh
+
+      - name: Run Monitor Script
+        run: |
+          ./analyse.sh
+
+      - name: Validate Json output
+        run: |
+          if [ -f data/metrics.json ]; then
+            jq . data/metrics.json > /dev/null
+          fi
+
