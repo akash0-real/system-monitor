@@ -159,3 +159,7 @@
 [critical] [2025-12-25 11:53:00] failed to start docker!!
 [alert] [2025-12-25 11:54:00] docker daemon down
 [critical] [2025-12-25 11:54:00] failed to start docker!!
+[alert] [2025-12-25 15:58:00] docker daemon down
+[critical] [2025-12-25 15:58:00] failed to start docker!!
+[alert] [2025-12-25 15:59:00] docker daemon down
+[critical] [2025-12-25 15:59:00] failed to start docker!!
