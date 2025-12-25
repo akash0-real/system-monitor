@@ -1,4 +1,4 @@
-name: Monitor Bash CI
+name: Monitor Zsh CI
 
 on:
   push:
@@ -6,25 +6,21 @@ on:
   pull_request:
 
 jobs:
-  bash-cli:
+  zsh-ci:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-     # - name: Install dependencies
-     #   run: |
-     #     sudo apt-get update
-     #     sudo apt-get install -y shellcheck jq
-
-      - name: Bash syntax check
+      - name: Install dependencies
         run: |
-          bash -n analyse.sh
+          sudo apt-get update
+          sudo apt-get install -y zsh jq
 
-      - name: ShellCheck analyse.sh
+      - name: Zsh syntax check
         run: |
-          shellcheck analyse.sh
+          zsh -n analyse.sh
 
       - name: Make script executable
         run: |
@@ -32,7 +28,7 @@ jobs:
 
       - name: Run monitor script
         run: |
-          ./analyse.sh
+          zsh analyse.sh
 
       - name: Validate JSON output
         run: |
