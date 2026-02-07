@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-#waiting for 5 minutes!!
+
 cooldown=300
 
 
