@@ -1,39 +1,20 @@
-name: Monitor Zsh CI
-
+name: Bash CI
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-
+    branches: [main]
 jobs:
-  zsh-ci:
-    runs-on: ubuntu-latest
-
+  check-bash:
+    runs-on: ubuntu-20.04
     steps:
-      - name: Checkout repository
+      - name: checkout code
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y zsh jq
-
-      - name: Zsh syntax check
-        run: |
-          zsh -n analyse.sh
-
-      - name: Make script executable
-        run: |
-          chmod +x analyse.sh
-
-      - name: Run monitor script
-        run: |
-          zsh analyse.sh
-
-      - name: Validate JSON output
-        run: |
-          if [ -f data/metrics.json ]; then
-            jq . data/metrics.json > /dev/null
-          fi
-
+      - name: Install spell check
+        run: sudo apt-get install -y spellcheck
+      - name: linting
+        run: spellcheck analyse.sh
+      - name: make executable
+        run: chmod +x analyse.sh
+      - name: run the scrpit
+        run: ./analyse.sh
