@@ -141,7 +141,7 @@ echo "$timestamp,$cpu_val,$cpu_state,$mem_val,$mem_state,$disk_val,$disk_state" 
  
 
 #writing into json file
-cat > "$dir/data/metrics.json" <<EOF
+cat > "$json_file" <<EOF
 {
   "timestamp": "$timestamp",
   "cpu": {
